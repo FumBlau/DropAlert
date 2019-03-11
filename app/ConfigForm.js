@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default class ConfigForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {phone:'', error: true, isSaved: false}
+    this.state = {phone:'', error: false, isSaved: false}
   }
 
   componentDidMount() {
@@ -16,7 +16,7 @@ export default class ConfigForm extends React.Component {
   async _retrievePhone() {
     const phone = await AsyncStorage.getItem('phone')
     if (null !== phone) {
-      this.setState({phone: phone, error: false, isSaved: true})
+      this.setState({phone: phone, error: false, isSaved: false})
     }
   }
 
@@ -41,7 +41,8 @@ export default class ConfigForm extends React.Component {
   }
 
   validatePhone(phone) {
-    this.setState({error: !this.isValidPhone(phone)})
+    const isValid = this.isValidPhone(phone)
+    this.setState({error: !isValid, isSaved: false})
   }
 
   renderSuccessMessage() {
