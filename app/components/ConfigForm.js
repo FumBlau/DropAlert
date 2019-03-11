@@ -54,9 +54,8 @@ export default class ConfigForm extends React.Component {
     }
   }
 
-  render() {
+  renderInputField() {
     return (
-      <View>
         <Input
           label='Teléfono de contacto en caso de emergencia'
           value={this.state.phone}
@@ -73,6 +72,13 @@ export default class ConfigForm extends React.Component {
             />
           }
         />
+    )
+  }
+
+  render() {
+    return (
+      <View>
+        { this.renderInputField() }
 
         { this.renderSuccessMessage() }
 

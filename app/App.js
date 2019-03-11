@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Header } from 'react-native-elements';
-import ConfigForm from './ConfigForm.js'
+import ConfigForm from './components/ConfigForm.js'
 
 export default class App extends React.Component {
   render() {
