@@ -1,7 +1,6 @@
 import React from 'react';
 import { AsyncStorage, Text, View } from 'react-native';
-import { Input, Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Icon, Input, Button } from 'react-native-elements';
 
 export default class ConfigForm extends React.Component {
   constructor(props) {
@@ -67,6 +66,7 @@ export default class ConfigForm extends React.Component {
           leftIcon={
             <Icon
               name='mobile-phone'
+              type='font-awesome'
               size={24}
               color='black'
             />
