@@ -1,6 +1,7 @@
 import React from 'react';
 import { AsyncStorage, Text, View } from 'react-native';
-import { Icon, Input, Button } from 'react-native-elements';
+import { Input, Button } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons';
 
 export default class ConfigForm extends React.Component {
   constructor(props) {
@@ -64,12 +65,7 @@ export default class ConfigForm extends React.Component {
           errorMessage={ this.state.error ? 'Introduce un teléfono correcto' : '' }
           errorStyle={{ color: 'red' }}
           leftIcon={
-            <Icon
-              name='mobile-phone'
-              type='font-awesome'
-              size={24}
-              color='black'
-            />
+            <Ionicons name="md-phone-portrait" size={24} color="black" />
           }
         />
     )
