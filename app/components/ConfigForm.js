@@ -49,7 +49,7 @@ export default class ConfigForm extends React.Component {
       return (<Text>Teléfono guardado correctamente</Text>)
     }
     else {
-      return (<Text/>)
+      return (<Text></Text>)
     }
   }
 

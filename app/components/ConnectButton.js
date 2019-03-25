@@ -1,52 +1,59 @@
-import React from 'react';
-import { View } from 'react-native';
-import { Button } from 'react-native-elements';
-import { BleManager } from 'react-native-ble-plx';
+import React from 'react'
+import { Text, View } from 'react-native'
+import { Button } from 'react-native-elements'
+import { BleManager } from 'react-native-ble-plx'
 
 export default class ConfigForm extends React.Component {
   constructor(props) {
     super(props)
     this.bleManager = new BleManager()
+    this.state = { bluetoothState: 'PoweredOff', errors: [] }
   }
 
-  checkConnection = () => {
-    const subscription = this.manager.onStateChange((state) => {
-        if (state === 'PoweredOff') {
-          //Avisar al cliente de activar bluetooth
-        }
+    componentDidMount() {
+        const subscription = this.bleManager.onStateChange((state) => {
+            this.setState({ bluetoothState: state })
+        }, true)
+    }
 
-        if (state === 'PoweredOn') {
-            this.bleManager.startDeviceScan(null, null, (error, device) => {
-              if (error) {
+    checkConnection = () => {
+        this.bleManager.startDeviceScan(null, null, (error, device) => {
+            console.log(error)
+            console.log(device)
+            if (error) {
                 // Handle error (scanning will be stopped automatically)
+                this.bleManager.stopDeviceScan()
                 return
-              }
+            }
 
-              // Check if it is a device you are looking for based on advertisement data
-              // or other criteria.
-              console.log(device)
+            // Check if it is a device you are looking for based on advertisement data
+            // or other criteria.
 
-              if (device.name === 'OurDevice') {
+            if (device.name === 'OurDevice') {
+                if (device.isConnected()) {
+                    // Stop scanning as it's not necessary if you are scanning for one device.
+                    this.bleManager.stopDeviceScan()
+                    // TODO store device name.
+                }
+            }
+        })
+    }
 
-                  // Stop scanning as it's not necessary if you are scanning for one device.
-                  this.manager.stopDeviceScan();
-
-                  // Proceed with connection.
-
-              }
-
+    render() {
+        if (this.state.bluetoothState == 'PoweredOff') {
+          return (
+                <View>
+                    <Text>Enciende tu bluetooth</Text>
+                </View>
+          )
         }
-
-    }, true);
-
-    });
-  }
-
-  render() {
-    return (
-      <View>
-        <Button onPress={this.checkConnection} title="Conectar" />
-      </View>
-    );
-  }
+        else if (this.state.bluetoothState == 'PoweredOn') {
+            return (
+                <View>
+                    <Button onPress={this.checkConnection} title="Conectar" />
+                </View>
+            )
+        }
+        return (<View></View>)
+    }
 }
