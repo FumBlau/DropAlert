@@ -29,6 +29,11 @@ build/
 .gradle
 local.properties
 *.iml
+android/build/
+android/.idea
+android/.gradle
+android/local.properties
+android/*.iml
 
 # node.js
 #
