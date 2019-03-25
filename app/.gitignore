@@ -29,7 +29,11 @@ build/
 .gradle
 local.properties
 *.iml
-android/build/
+android/app/build/
+android/app/.idea
+android/app/local.properties
+android/app/*.iml
+android/app/.gradle
 android/.idea
 android/.gradle
 android/local.properties
