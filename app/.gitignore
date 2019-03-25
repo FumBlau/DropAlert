@@ -39,6 +39,8 @@ android/.idea
 android/.gradle
 android/local.properties
 android/*.iml
+android/app/gradlew
+android/app/gradlew.bat
 
 # node.js
 #
