@@ -8,10 +8,11 @@
   },
   "dependencies": {
     "react": "16.8.3",
-    "react-native": "0.59.1",
+    "react-native": "0.59.2",
     "react-native-ble-plx": "^1.0.3",
     "react-native-elements": "^1.1.0",
-    "react-native-geolocation-service": "^2.0.0"
+    "react-native-geolocation-service": "^2.0.0",
+    "react-native-sms-x": "^1.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",

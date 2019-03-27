@@ -11,9 +11,11 @@ import {
   Platform,
   Text,
   ToastAndroid,
-  View
+  View,
+  AsyncStorage
 } from 'react-native';
-import Geolocation from 'react-native-geolocation-service';
+import Geolocation from 'react-native-geolocation-service'
+import SendSMS from 'react-native-sms-x'
 
 export default class GeoLocationButton extends Component<{}> {
   state = {
@@ -48,16 +50,41 @@ export default class GeoLocationButton extends Component<{}> {
     return false;
   }
 
+  hasSendSMSPermission = async () => {
+    const hasSMSPermission = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.SEND_SMS
+    );
+
+    if (hasSMSPermission) return true;
+
+    const status = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.SEND_SMS
+    );
+
+    if (status === PermissionsAndroid.RESULTS.GRANTED) return true;
+
+    if (status === PermissionsAndroid.RESULTS.DENIED) {
+      ToastAndroid.show('Send SMS permission denied by user.', ToastAndroid.LONG);
+    } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+      ToastAndroid.show('Send SMS permission revoked by user.', ToastAndroid.LONG);
+    }
+
+    return false;
+  }
+
   getLocation = async () => {
     const hasLocationPermission = await this.hasLocationPermission();
+    const hasSendSMSPermission = await this.hasSendSMSPermission();
 
     if (!hasLocationPermission) return;
+    if (!hasSendSMSPermission) return;
 
     this.setState({ loading: true }, () => {
       Geolocation.getCurrentPosition(
         (position) => {
           this.setState({ location: position, loading: false });
           console.log(position);
+          this.sendSMS();
         },
         (error) => {
           this.setState({ location: error, loading: false });
@@ -67,6 +94,22 @@ export default class GeoLocationButton extends Component<{}> {
       );
     });
   }
+
+    async sendSMS() {
+//        const phone = await AsyncStorage.getItem('phone')
+//        if (null !== phone) {
+//            console.log('Phone not exist!')
+//        }
+        const phone = '635123456'
+        const coords = this.state.location.coords
+        const body = 'Aviso urgente en https://www.google.com/maps/search/?api=1&query=' + coords.latitude + ',' + coords.longitude
+
+        SendSMS.send(123, phone, body,
+            (msg)=>{
+                console.log(msg)
+            }
+        );
+    }
 
   render() {
     const { loading, location } = this.state;
