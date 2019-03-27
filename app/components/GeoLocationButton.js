@@ -9,7 +9,6 @@ import {
   Button,
   PermissionsAndroid,
   Platform,
-  StyleSheet,
   Text,
   ToastAndroid,
   View
@@ -17,18 +16,12 @@ import {
 import Geolocation from 'react-native-geolocation-service';
 
 export default class GeoLocationButton extends Component<{}> {
-  watchId = null;
-
   state = {
     loading: false,
-    updatesEnabled: false,
     location: {}
   };
 
   hasLocationPermission = async () => {
-
-    console.log(Platform.OS)
-
     if (Platform.OS === 'ios' ||
         (Platform.OS === 'android' && Platform.Version < 23)) {
       return true;
@@ -75,42 +68,11 @@ export default class GeoLocationButton extends Component<{}> {
     });
   }
 
-  getLocationUpdates = async () => {
-    const hasLocationPermission = await this.hasLocationPermission();
-
-    if (!hasLocationPermission) return;
-
-    this.setState({ updatesEnabled: true }, () => {
-      this.watchId = Geolocation.watchPosition(
-        (position) => {
-          this.setState({ location: position });
-          console.log(position);
-        },
-        (error) => {
-          this.setState({ location: error });
-          console.log(error);
-        },
-        { enableHighAccuracy: true, distanceFilter: 0, interval: 5000, fastestInterval: 2000 }
-      );
-    });
-  }
-
-  removeLocationUpdates = () => {
-      if (this.watchId !== null) {
-          Geolocation.clearWatch(this.watchId);
-          this.setState({ updatesEnabled: false })
-      }
-  }
-
   render() {
-    const { loading, location, updatesEnabled } = this.state;
+    const { loading, location } = this.state;
     return (
     <View /*style={styles.container}*/>
-        <Button title='Get Location' onPress={this.getLocation} disabled={loading || updatesEnabled} />
-        <View /*style={styles.buttons}*/>
-            <Button title='Start Observing' onPress={this.getLocationUpdates} disabled={updatesEnabled} />
-            <Button title='Stop Observing' onPress={this.removeLocationUpdates} disabled={!updatesEnabled} />
-        </View>
+        <Button title='Get Location' onPress={this.getLocation} disabled={loading} />
 
         <View /*style={styles.result}*/>
             <Text>{JSON.stringify(location, null, 4)}</Text>
@@ -119,27 +81,3 @@ export default class GeoLocationButton extends Component<{}> {
     );
   }
 }
-/*
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    paddingHorizontal: 12
-  },
-  result: {
-      borderWidth: 1,
-      borderColor: '#666',
-      width: '100%',
-      paddingHorizontal: 16
-  },
-  buttons: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      alignItems: 'center',
-      marginVertical: 12,
-      width: '100%'
-  }
-});
-*/
