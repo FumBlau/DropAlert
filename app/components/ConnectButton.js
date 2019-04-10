@@ -2,6 +2,7 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import { Button } from 'react-native-elements'
 import { BleManager, LogLevel } from 'react-native-ble-plx'
+import Eddystone from "@lg2/react-native-eddystone";
 
 export default class ConfigForm extends React.Component {
   constructor(props) {
@@ -15,43 +16,37 @@ export default class ConfigForm extends React.Component {
         const subscription = this.bleManager.onStateChange((state) => {
             this.setState({ bluetoothState: state })
         }, true)
+
+        Eddystone.addListener("onUIDFrame", this.onUID);
+        Eddystone.addListener("onEIDFrame", this.onEID);
+        Eddystone.addListener("onURLFrame", this.onUrl);
+        Eddystone.addListener("onTelemetryFrame", this.onTelemetry);
+        Eddystone.addListener("onEmptyFrame", this.onEmptyFrame);
+        Eddystone.addListener("onStateChanged", this.onStateChanged);
+    }
+
+    onUID(beacon) {
+        console.log("UID Beacon:", beacon);
+    }
+
+    onEID(beacon) {
+        console.log("EID Beacon:", beacon);
+    }
+
+    onUrl(url) {
+        console.log("URL:", url);
+    }
+
+    onTelemetry(telemetry) {
+        console.log("Telemetry:", telemetry);
+    }
+
+    onStateChanged(state) {
+        console.log(`state: ${state}`);
     }
 
     checkConnection = () => {
-        this.bleManager.startDeviceScan(null, null, (error, device) => {
-            console.log(device.name)
-	    console.log(device.id)
-
-            if (error) {
-                // Handle error (scanning will be stopped automatically)
-		console.log(error)
-                this.bleManager.stopDeviceScan()
-                return
-            }
-
-            // Check if it is a device you are looking for based on advertisement data
-            // or other criteria.
-	    if (device.isConnected()) {
- 	        console.log(device.name)
-	        console.log(device.id)
-
-		console.log('Dispositivo conectado!')
-	    } else {
-	    	console.log('Dispositivo no conectado')
-		console.log(device.name)
-		console.log(device.id)
-
-	    }
-
-
-            if (device.name === 'OurDevice') {
-                if (device.isConnected()) {
-                    // Stop scanning as it's not necessary if you are scanning for one device.
-                    this.bleManager.stopDeviceScan()
-                    // TODO store device name.
-                }
-            }
-        })
+        Eddystone.startScanning();
     }
 
     render() {

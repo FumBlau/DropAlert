@@ -3,6 +3,7 @@ package com.dropalert;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.lg2.eddystone.EddystonePackage;
 import com.someone.sendsms.SendSMSPackage;
 import com.polidea.reactnativeble.BlePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -27,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new EddystonePackage(),
             new SendSMSPackage(),
             new BlePackage(),
             new VectorIconsPackage(),
