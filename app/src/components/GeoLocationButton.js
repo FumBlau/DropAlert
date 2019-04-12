@@ -18,21 +18,22 @@ export default class GeoLocationButton extends React.Component {
     }
 
     getLocation = () => {
-        this.geoLocationService.getCurrentLocation(this.onLocationSuccess, this.setLocation)
+        this.geoLocationService.getCurrentLocation((location) => { this.onLocationSuccess(location) }, (error) => { this.setLocation(error) })
     }
 
     onLocationSuccess(location) {
         this.setLocation(location)
-        this.sendSMS()
+        this.sendSMS(location)
     }
 
-    async sendSMS() {
-//        const phone = await AsyncStorage.getItem('phone')
-//        if (null !== phone) {
-//            console.log('Phone not exist!')
-//        }
-        const phone = '635123456'
-        const coords = this.state.location.coords
+    async sendSMS(location) {
+        const phone = await AsyncStorage.getItem('phone')
+        if (null !== phone) {
+            console.log('Phone not exist!')
+            return
+        }
+
+        const coords = location.coords
         this.smsService.sendAlert(phone, coords)
     }
 

@@ -2,7 +2,7 @@ import Geolocation from 'react-native-geolocation-service'
 
 export default class GeoLocationService {
 
-    getCurrentPosition(success, error) {
+    getCurrentLocation(success, error) {
         Geolocation.getCurrentPosition(
             (position) => {
                 success(position)

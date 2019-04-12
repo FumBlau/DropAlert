@@ -15,7 +15,7 @@ export default class ConfigForm extends React.Component {
   }
 
     componentDidMount() {
-        this.bluetoothService.subscribe(this.updateBluetoothState)
+        this.bluetoothService.subscribe(() => {this.updateBluetoothState()})
     }
 
     checkConnection = () => {
