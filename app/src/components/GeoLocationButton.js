@@ -14,8 +14,8 @@ import {
   View,
   AsyncStorage
 } from 'react-native';
-import Geolocation from 'react-native-geolocation-service'
-import SendSMS from 'react-native-sms-x'
+import SmsService from '../services/SmsService.js'
+import GeoLocationService from '../services/GeoLocationService.js'
 
 export default class GeoLocationButton extends Component<{}> {
   state = {
@@ -23,22 +23,23 @@ export default class GeoLocationButton extends Component<{}> {
     location: {}
   };
 
+    constructor(props){
+        this.smsService = new SmsService()
+        this.geoLocationService = new GeoLocationService()
+    }
+
+    setLocation(location) {
+        this.setState({ location: location, loading: false });
+    }
+
   getLocation = () => {
-    this.setState({ loading: true }, () => {
-      Geolocation.getCurrentPosition(
-        (position) => {
-          this.setState({ location: position, loading: false });
-          console.log(position);
-          this.sendSMS();
-        },
-        (error) => {
-          this.setState({ location: error, loading: false });
-          console.log(error);
-        },
-        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000, distanceFilter: 50 }
-      );
-    });
+    this.geoLocationService.getCurrentLocation(this.onLocationSuccess, this.setLocation)
   }
+
+    onLocationSuccess(location) {
+        this.setLocation(location)
+        this.sendSMS()
+    }
 
     async sendSMS() {
 //        const phone = await AsyncStorage.getItem('phone')
@@ -47,13 +48,7 @@ export default class GeoLocationButton extends Component<{}> {
 //        }
         const phone = '635123456'
         const coords = this.state.location.coords
-        const body = 'Aviso urgente en https://www.google.com/maps/search/?api=1&query=' + coords.latitude + ',' + coords.longitude
-
-        //SendSMS.send(123, phone, body,
-            //(msg)=>{
-                //console.log(msg)
-            //}
-        //);
+        this.smsService.sendAlert(phone, coords)
     }
 
   render() {
