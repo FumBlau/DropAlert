@@ -2,7 +2,7 @@ import { BleManager, LogLevel } from 'react-native-ble-plx'
 import Eddystone from "@lg2/react-native-eddystone";
 
 export default class BluetoothService {
-    constructor(){
+    constructor() {
         this.bleManager = new BleManager()
         this.bleManager.setLogLevel(LogLevel.Verbose)
     }
