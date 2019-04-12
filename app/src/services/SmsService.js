@@ -1,6 +1,6 @@
 import SendSMS from 'react-native-sms-x'
 
-export default SendSms {
+export default class SmsService {
 
     sendAlert(phone, coords) {
         const body = 'Aviso urgente en https://www.google.com/maps/search/?api=1&query=' + coords.latitude + ',' + coords.longitude
@@ -12,6 +12,6 @@ export default SendSms {
             (msg)=>{
                 console.log(msg)
             }
-        );
+        )
     }
 }

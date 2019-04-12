@@ -1,7 +1,7 @@
 import { BleManager, LogLevel } from 'react-native-ble-plx'
 import Eddystone from "@lg2/react-native-eddystone";
 
-export default BluetoohtService {
+export default class BluetoothService {
     constructor(){
         this.bleManager = new BleManager()
         this.bleManager.setLogLevel(LogLevel.Verbose)
@@ -13,11 +13,11 @@ export default BluetoohtService {
     }
 
     onUID(beacon) {
-        console.log("UID Beacon:", beacon);
+        console.log("UID Beacon:", beacon)
     }
 
     startScanning = () => {
-        Eddystone.startScanning();
+        Eddystone.startScanning()
     }
 
     onBluetoothStateChange = (callback) => {
@@ -27,7 +27,7 @@ export default BluetoohtService {
     }
 
     onBeaconDetected = () => {
-        Eddystone.addListener("onUIDFrame", this.onUID);
+        Eddystone.addListener("onUIDFrame", this.onUID)
         //Eddystone.addListener("onEIDFrame", this.onEID);
         //Eddystone.addListener("onURLFrame", this.onUrl);
         //Eddystone.addListener("onTelemetryFrame", this.onTelemetry);

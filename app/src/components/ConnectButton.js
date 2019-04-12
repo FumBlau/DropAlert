@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 import { Button } from 'react-native-elements'
-import { BluetoothService } from  '../services/BluetoothService.js'
+import BluetoothService from  '../services/BluetoothService.js'
 
 export default class ConfigForm extends React.Component {
   constructor(props) {
