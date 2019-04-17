@@ -7,17 +7,17 @@ export default class BluetoothService {
         this.bleManager.setLogLevel(LogLevel.Verbose)
     }
 
-    subscribe(callback) {
-        this.onBluetoothStateChange(callback)
-        this.onBeaconDetected()
+    subscribe(onBluetoothStateChangeCallback, onBeaconDetectedCallback) {
+        this.onBluetoothStateChange(onBluetoothStateChangeCallback)
+        this.onBeaconDetected(onBeaconDetectedCallback)
     }
 
-    onUID(beacon) {
-        console.log("UID Beacon:", beacon)
-    }
-
-    startScanning = () => {
+    startScanning() {
         Eddystone.startScanning()
+    }
+
+    stopScanning() {
+        Eddystone.stopScanning()
     }
 
     onBluetoothStateChange = (callback) => {
@@ -26,12 +26,7 @@ export default class BluetoothService {
         }, true)
     }
 
-    onBeaconDetected = () => {
-        Eddystone.addListener("onUIDFrame", this.onUID)
-        //Eddystone.addListener("onEIDFrame", this.onEID);
-        //Eddystone.addListener("onURLFrame", this.onUrl);
-        //Eddystone.addListener("onTelemetryFrame", this.onTelemetry);
-        //Eddystone.addListener("onEmptyFrame", this.onEmptyFrame);
-        //Eddystone.addListener("onStateChanged", this.onStateChanged);
+    onBeaconDetected = (callback) => {
+        Eddystone.addListener("onUIDFrame", callback)
     }
 }

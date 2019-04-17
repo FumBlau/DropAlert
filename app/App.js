@@ -2,8 +2,7 @@ import React from 'react'
 import { PermissionsAndroid, View } from 'react-native'
 import { Header } from 'react-native-elements'
 import ConfigForm from './src/components/ConfigForm.js'
-import ConnectButton from './src/components/ConnectButton.js'
-import GeoLocationButton from './src/components/GeoLocationButton.js'
+import ActivationButton from './src/components/ActivationButton.js'
 
 export default class App extends React.Component {
 
@@ -54,9 +53,7 @@ export default class App extends React.Component {
 
         <ConfigForm></ConfigForm>
 
-        <ConnectButton></ConnectButton>
-
-        <GeoLocationButton></GeoLocationButton>
+        <ActivationButton></ActivationButton>
 
       </View>
     )
