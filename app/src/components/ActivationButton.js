@@ -6,6 +6,7 @@ import { Button } from 'react-native-elements'
 import BluetoothService from  '../services/BluetoothService.js'
 import GeoLocationService from '../services/GeoLocationService.js'
 import SmsService from '../services/SmsService.js'
+import StorageService from '../services/StorageService.js'
 
 export default class ActivationButton extends React.Component {
     constructor(props) {
@@ -21,6 +22,7 @@ export default class ActivationButton extends React.Component {
         this.bluetoothService = new BluetoothService()
         this.geoLocationService = new GeoLocationService()
         this.smsService = new SmsService()
+        this.storage = new StorageService()
     }
 
     setLocation(location) {
@@ -37,9 +39,9 @@ export default class ActivationButton extends React.Component {
     }
 
     async sendSMS(location) {
-        const phone = await AsyncStorage.getItem('phone')
-        if (null !== phone) {
-            console.log('Phone not exist!')
+        const phone = await this.storage.getItem('@phone')
+
+        if (null === phone) {
             return
         }
 

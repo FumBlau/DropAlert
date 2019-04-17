@@ -1,11 +1,15 @@
-import React from 'react';
-import { AsyncStorage, Text, View } from 'react-native';
-import { Icon, Input, Button } from 'react-native-elements';
+import React from 'react'
+import { Text, View } from 'react-native'
+import { Icon, Input, Button } from 'react-native-elements'
+
+import StorageService from '../services/StorageService.js'
 
 export default class ConfigForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {phone:'', error: false, isSaved: false}
+
+    this.storage = new StorageService()
   }
 
   componentDidMount() {
@@ -13,7 +17,7 @@ export default class ConfigForm extends React.Component {
   }
 
   async _retrievePhone() {
-    const phone = await AsyncStorage.getItem('phone')
+    const phone = await this.storage.getItem('@phone')
     if (null !== phone) {
       this.setState({phone: phone, error: false, isSaved: false})
     }
@@ -30,7 +34,7 @@ export default class ConfigForm extends React.Component {
     this.validatePhone(phone)
 
     if (this.isValidPhone(phone)) {
-      AsyncStorage.setItem('phone', phone)
+      this.storage.setItem('@phone', phone)
       this.setState({isSaved: true})
     }
   }

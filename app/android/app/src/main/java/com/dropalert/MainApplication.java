@@ -3,6 +3,7 @@ package com.dropalert;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.ocetnik.timer.BackgroundTimerPackage;
 import com.lg2.eddystone.EddystonePackage;
 import com.someone.sendsms.SendSMSPackage;
@@ -29,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new AsyncStoragePackage(),
             new BackgroundTimerPackage(),
             new EddystonePackage(),
             new SendSMSPackage(),
