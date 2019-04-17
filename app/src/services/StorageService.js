@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-community/async-storage'
 
 export default class StorageService {
     async getItem(key) {
@@ -8,6 +8,6 @@ export default class StorageService {
     }
 
     async setItem(key, value) {
-
+        AsyncStorage.setItem(key, value)
     }
 }

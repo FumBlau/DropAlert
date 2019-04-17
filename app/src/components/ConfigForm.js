@@ -1,6 +1,6 @@
 import React from 'react'
-import { Text, View } from 'react-native'
-import { Icon, Input, Button } from 'react-native-elements'
+import { View } from 'react-native'
+import { Icon, Input, Button, Text } from 'react-native-elements'
 
 import StorageService from '../services/StorageService.js'
 
@@ -39,9 +39,15 @@ export default class ConfigForm extends React.Component {
     }
   }
 
-  isValidPhone(phone) {
-    return (!isNaN(phone) && isFinite(phone) && 9 == phone.length)
-  }
+    isValidPhone(input) {
+        const phones = input.split(',')
+        isValid = true
+        phones.forEach((phone) => {
+            isValid = isValid && (!isNaN(phone) && isFinite(phone) && 9 == phone.length)
+        })
+
+        return isValid
+    }
 
   validatePhone(phone) {
     const isValid = this.isValidPhone(phone)
@@ -60,7 +66,7 @@ export default class ConfigForm extends React.Component {
   renderInputField() {
     return (
         <Input
-          label='Teléfono de contacto en caso de emergencia'
+          label='Teléfono de contacto en caso de emergencia. Puedes introducir multiples telefonos, separandolos por una coma.'
           value={this.state.phone}
           onChangeText = {this.setPhone}
           placeholder='Teléfono'

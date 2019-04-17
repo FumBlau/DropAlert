@@ -1,7 +1,7 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import BackgroundTimer from 'react-native-background-timer';
-import { Button } from 'react-native-elements'
+import { Button, Text } from 'react-native-elements'
 
 import BluetoothService from  '../services/BluetoothService.js'
 import GeoLocationService from '../services/GeoLocationService.js'
@@ -39,14 +39,17 @@ export default class ActivationButton extends React.Component {
     }
 
     async sendSMS(location) {
-        const phone = await this.storage.getItem('@phone')
+        const phones = await this.storage.getItem('@phone')
 
-        if (null === phone) {
+        if (null === phones) {
             return
         }
 
         const coords = location.coords
-        this.smsService.sendAlert(phone, coords)
+
+        phones.split(',').forEach((phone) => {
+            this.smsService.sendAlert(phone, coords)
+        })
     }
 
     updateBluetoothState(state) {
@@ -133,13 +136,14 @@ export default class ActivationButton extends React.Component {
             if (this.state.backgroundServiceCheck == false) {
                 return (
                     <View>
-                        <Button onPress={this.activeBackgroundService} title="Activar"></Button>
+                        <Text>Asegurate de que la tobillera tiene bateria y esta correctamente colocada</Text>
+                        <Button onPress={this.activeBackgroundService} title="Activar servicio Drop Alert"></Button>
                     </View>
                 )
             }
             return (
                 <View>
-                    <Button onPress={this.disableBackgroundService} title="Desactivar"></Button>
+                    <Button onPress={this.disableBackgroundService} title="Desactivar servicio Drop Alert"></Button>
                 </View>
             )
         }
