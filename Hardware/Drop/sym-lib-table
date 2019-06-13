@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name local)(type Legacy)(uri "C:/Users/Angel/Desktop/expansion bluetooth/expansion/local.lib")(options "")(descr ""))
+  (lib (name expansion-rescue)(type Legacy)(uri ${KIPRJMOD}/expansion-rescue.lib)(options "")(descr ""))
+)
