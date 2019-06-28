@@ -1,0 +1,5 @@
+(sym_lib_table
+  (lib (name local)(type Legacy)(uri "C:/almacen/fumblau/proyectos/Ismael beltran Bluetooth/DropAlert/Hardware/Drop/local.lib")(options "")(descr ""))
+  (lib (name expansion-rescue)(type Legacy)(uri ${KIPRJMOD}/expansion-rescue.lib)(options "")(descr ""))
+  (lib (name libreria)(type Legacy)(uri "C:/almacen/fumblau/proyectos/Ismael beltran Bluetooth/DropAlert/Hardware/Drop/libreria.lib")(options "")(descr ""))
+)
